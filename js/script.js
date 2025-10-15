@@ -414,7 +414,7 @@ function checkForInteraction() {
                 };
                 
                 dialogText.textContent = presentMessages[target.id] || "Você encontrou uma Pokébola!";
-                presentDisplay.style.backgroundImage = `url('../assets/${getPresentAsset(target.id)}')`;
+                presentDisplay.style.backgroundImage = `url('./assets/${getPresentAsset(target.id)}')`;
                 currentInteractionTarget = target; // O alvo é o próprio elemento
             }
         }
@@ -564,4 +564,5 @@ document.addEventListener('DOMContentLoaded', () => {
     presentDisplay = document.getElementById('present-display');
     rugMini = document.getElementById('rug-mini');
     gameLoop(); 
+
 });
