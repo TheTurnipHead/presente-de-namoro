@@ -1,0 +1,444 @@
+/* RESET BÁSICO */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+}
+.jersey-10-regular {
+  font-family: "Jersey 10", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* CONTAINER PRINCIPAL: SIMULAÇÃO DA TELA DO JOGO */
+#game-container {
+    /* Tamanho clássico de tela de jogo pixelado (pode ser ajustado) */
+    width: 1024px; 
+    height: 768px;
+    
+    /* Centraliza na tela do navegador */
+    margin: 50px auto; 
+    
+    /* Borda para parecer uma tela */
+    border: 8px solid #333; 
+    border-radius: 4px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* Sombra externa suave */
+    
+    /* Garante que o personagem e outros elementos sejam posicionados em relação a este container */
+    position: relative; 
+    
+    /* NOVO: Adiciona o tile de piso e o faz repetir */
+    background-image: url('../assets/floor_tile.png');
+    
+    /* MANTÉM: O tamanho do tile original (32x32px) para a repetição */
+    background-size: 64px 64px; 
+    
+    /* Garante que o pixel art se mantenha nítido (IMPORTANTE!) */
+    image-rendering: pixelated;
+    
+    /* Oculta qualquer coisa que sair da tela */
+    overflow: hidden;
+
+
+}
+
+/* CENÁRIO: CRIANDO PAREDES COM DIVS E BORDERS */
+/* Em vez de usar imagens de tiles, podemos usar o conceito de "bloqueio" */
+
+/* Parede Superior (Pode ser o balcão do Professor Carvalho) */
+#game-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 64px; /* Altura da parede/balcão */
+    background-color: #fcc2bc;
+    border-bottom: 4px solid #333;
+    z-index: 10;
+}
+
+/* O PERSONAGEM */
+#player {
+    /* Dimensões do Personagem (ex: 32x32 pixels) */
+    width: 96px; 
+    height: 96px;
+    position: absolute;
+    z-index: 20;
+
+    background-image: url('../assets/player_spritesheet.png');
+    image-rendering: pixelated;
+    background-position: 0px 0px;
+    transition: left 0.05s linear, top 0.05s linear;
+    background-size: calc(32px * 4 * 3) calc(32px * 4 * 3); /* 4 colunas (frames) x 4 linhas (direções) */
+    /* Início da posição no laboratório */
+    top: 670px;
+    left: 250px;
+    
+    /* Permite mover o personagem com JS */
+    position: absolute; 
+    
+    /* Garante que ele fique acima dos objetos */
+    z-index: 20; 
+}
+
+#npc-you {
+    /* ESCALA 3X: 32px * 3 = 96px */
+    width: 96px; 
+    height: 96px;
+    
+    position: absolute;
+    z-index: 18; /* Abaixo do player (20), mas acima do chão (5) */
+    
+    /* IMAGEM: A pose estática do seu personagem */
+    background-image: url('../assets/npc_you.png'); 
+    background-size: calc(32px * 4 * 3) calc(32px * 4 * 3); /* 384px x 384px */
+    image-rendering: pixelated;
+    /* POSIÇÃO: Exemplo, centro-esquerdo da tela */
+    top: 350px; 
+    left: 200px; 
+
+    background-position: 0 0;
+
+    animation: rock-head 0.8s steps(4) infinite;
+
+}
+
+@keyframes rock-head {
+    /* Move o background horizontalmente, frame por frame, para simular a animação */
+    from {
+        /* Posição inicial: 1º frame (0px) na 1ª linha (0px) */
+        background-position: 0 0; 
+    }
+    to {
+        /* Posição final: 4º frame (-96px * 4 = -384px, se não escalado) na 1ª linha */
+        /* O background-size fará o ajuste, só precisamos do total de pixels não escalado * 4 frames */
+        /* (32px * 4 frames) = 128px. Multiplicamos pela escala 3x = 384px. */
+        background-position: calc(96px * 4) 0; /* Move o background 4 frames para a esquerda */
+    }
+}
+
+#bed-object {
+    /* Ajuste esses valores para o tamanho da sua imagem de cama, escalada 2x */
+    width: 250px; /* Exemplo: 5 tiles de largura * 64px = 320px */
+    height: 330px; /* Exemplo: 3 tiles de altura * 64px = 192px */
+    
+    position: absolute;
+    z-index: 5; /* Garante que fique abaixo do personagem */
+    
+    background-image: url('../assets/cama.png'); /* <--- AJUSTE O NOME DO ARQUIVO! */
+    background-size: cover; /* Faz a imagem preencher o espaço 320x192 */
+    image-rendering: pixelated;
+    
+    /* Posição da cama no quarto (Ex: Canto superior-direito, onde as pokebolas estão) */
+    top: 275px; 
+    left: 685px; 
+}
+
+#eevee {
+    /* Dimensões grandes para o tapete */
+    width: 70px; 
+    height: 70px;
+    
+    position: absolute;
+    z-index: 11; /* Fica abaixo de todos os móveis e do player (z-index 5) */
+    
+    background-image: url('../assets/eevee.png'); 
+    background-size: cover; /* Para caber na área 350x250 */
+    image-rendering: pixelated;
+    
+    /* POSIÇÃO: Centralizado no lado esquerdo da área jogável */
+    top: 375px; 
+    left: 830px; 
+    
+    /* Tapetes geralmente não têm colisão. */
+}
+
+#rug-mini {
+    /* Dimensões grandes para o tapete */
+    width: 130px; 
+    height: 65px;
+    
+    position: absolute;
+    z-index: 4; /* Fica abaixo de todos os móveis e do player (z-index 5) */
+    
+    background-image: url('../assets/mini_rug.png'); 
+    background-size: cover; /* Para caber na área 350x250 */
+    image-rendering: pixelated;
+    
+    /* POSIÇÃO: Centralizado no lado esquerdo da área jogável */
+    top: 685px; 
+    left: 235px; 
+    
+    /* Tapetes geralmente não têm colisão. */
+}
+
+#rug-object {
+    /* Dimensões grandes para o tapete */
+    width: 300px; 
+    height: 300px;
+    
+    position: absolute;
+    z-index: 4; /* Fica abaixo de todos os móveis e do player (z-index 5) */
+    
+    background-image: url('../assets/rug_object.png'); 
+    background-size: cover; /* Para caber na área 350x250 */
+    image-rendering: pixelated;
+    
+    /* POSIÇÃO: Centralizado no lado esquerdo da área jogável */
+    top: 305px; 
+    left: 420px; 
+    
+    /* Tapetes geralmente não têm colisão. */
+}
+
+#snorlax {
+    /* Dimensões grandes para o tapete */
+    width: 200px; 
+    height: 150px;
+    
+    position: absolute;
+    z-index: 4; /* Fica abaixo de todos os móveis e do player (z-index 5) */
+    
+    background-image: url('../assets/snorlax_puff.png'); 
+    background-size: cover; /* Para caber na área 350x250 */
+    image-rendering: pixelated;
+    
+    /* POSIÇÃO: Centralizado no lado esquerdo da área jogável */
+    top: 130px; 
+    left: 770px; 
+    
+    /* Tapetes geralmente não têm colisão. */
+}
+
+#shelf-object {
+    /* Ajuste o tamanho da estante, escalado 3x (ex: 5 tiles de largura x 3 tiles de altura) */
+    width: 105px; /* 32px * 5 tiles * 2x escala = 320px */
+    height: 280px; /* 32px * 3 tiles * 2x escala = 192px */
+
+    position: absolute;
+    z-index: 5; /* Fica no chão */
+    
+    background-image: url('../assets/estante.png');
+    background-size: cover;
+    image-rendering: pixelated;
+    
+    /* POSIÇÃO: Canto superior esquerdo */
+    top: 320px; /* Abaixo da 'parede' */
+    left: 10px; 
+}
+
+#retrato {
+    /* Ajuste o tamanho da estante. Exemplo para uma estante larga e alta */
+    width: 210px;  /* Exemplo: 4 tiles de largura * 96px */
+    height: 115px; /* Exemplo: 2 tiles de altura * 96px */
+    
+    position: absolute;
+    z-index: 11; /* Um pouco mais alta que a estante pequena, mas abaixo do player (20) */
+    
+    background-image: url('../assets/retrato.png');
+    background-size: 60px 40px;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+    
+    /* POSIÇÃO: Canto superior esquerdo */
+    top: 10px; /* Começa logo abaixo da barra de parede */
+    left: 870px; 
+}
+
+#maya {
+    /* Ajuste o tamanho da estante. Exemplo para uma estante larga e alta */
+    width: 210px;  /* Exemplo: 4 tiles de largura * 96px */
+    height: 115px; /* Exemplo: 2 tiles de altura * 96px */
+    
+    position: absolute;
+    z-index: 11; /* Um pouco mais alta que a estante pequena, mas abaixo do player (20) */
+    
+    background-image: url('../assets/maya.png');
+    background-size: 80px 80px;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+    
+    /* POSIÇÃO: Canto superior esquerdo */
+    top: 650px; /* Começa logo abaixo da barra de parede */
+    left: 930px; 
+}
+
+#will {
+    /* Ajuste o tamanho da estante. Exemplo para uma estante larga e alta */
+    width: 210px;  /* Exemplo: 4 tiles de largura * 96px */
+    height: 115px; /* Exemplo: 2 tiles de altura * 96px */
+    
+    position: absolute;
+    z-index: 11; /* Um pouco mais alta que a estante pequena, mas abaixo do player (20) */
+    
+    background-image: url('../assets/will.png');
+    background-size: 100px 100px;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+    
+    /* POSIÇÃO: Canto superior esquerdo */
+    top: 50px; /* Começa logo abaixo da barra de parede */
+    left: 680px; 
+}
+
+#poltrona {
+    /* Ajuste o tamanho da estante. Exemplo para uma estante larga e alta */
+    width: 384px;  /* Exemplo: 4 tiles de largura * 96px */
+    height: 192px; /* Exemplo: 2 tiles de altura * 96px */
+    
+    position: absolute;
+    z-index: 11; /* Um pouco mais alta que a estante pequena, mas abaixo do player (20) */
+    
+    background-image: url('../assets/poltrona.png');
+    background-size: 200px;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+    
+    /* POSIÇÃO: Canto superior esquerdo */
+    top: 30px; /* Começa logo abaixo da barra de parede */
+    left: 450px; 
+}
+
+#big-shelf-object {
+    /* Ajuste o tamanho da estante. Exemplo para uma estante larga e alta */
+    width: 384px;  /* Exemplo: 4 tiles de largura * 96px */
+    height: 192px; /* Exemplo: 2 tiles de altura * 96px */
+    
+    position: absolute;
+    z-index: 11; /* Um pouco mais alta que a estante pequena, mas abaixo do player (20) */
+    
+    background-image: url('../assets/big_estante.png');
+    background-size: cover;
+    image-rendering: pixelated;
+    
+    /* POSIÇÃO: Canto superior esquerdo */
+    top: -45px; /* Começa logo abaixo da barra de parede */
+    left: 10px; 
+}
+
+/* AS POKÉBOLAS */
+.pokeball {
+    width: 32px;
+    height: 32px;
+    background-color: transparent; /* Cor temporária */
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+
+    background-image: url('../assets/pokeball.png');
+    background-size: cover;
+    image-rendering: pixelated;
+
+    position: absolute;
+    z-index: 15;
+    
+}
+
+.pokeball.opened {
+    background-image: url('../assets/openPokeball.png');
+}
+
+/* Posicionamento das Pokebolas (ajuste como quiser no laboratório) */
+#pokeball-1 {
+    top: 500px;
+    left:740px;
+}
+
+#pokeball-2 {
+    top: 500px;
+    left: 800px; /* Centro */
+}
+
+#pokeball-3 {
+    top: 500px;
+    left: 860px;
+}
+
+/* CAIXA DE DIÁLOGO (Para Interação) */
+#dialog-box {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 120px; /* Aumentado para caber mais texto, se necessário */
+    
+    /* ESTILO GBA: Fundo azul escuro com borda */
+    background-color: #e0e0e0; /* Fundo cinza escuro para a caixa */
+    color: rgb(84, 172, 255);
+    
+    padding: 16px; /* Espaçamento interno */
+    z-index: 100;
+    
+    /* Borda Clássica de Pokémon GBA */
+    border: 4px solid #e22ae2; /* Borda branca clara */
+    box-shadow: 0 0 0 8px #222222; /* Borda externa escura */
+    /* Estilo de fonte pixelado */
+    font-family: 'Press Start 2P', monospace; /* Usa a fonte pixel art */
+    font-size: 18px;
+    line-height: 1.5;
+}
+
+
+
+/* ESTILO DO TEXTO DENTRO DA CAIXA */
+#dialog-text {
+    /* Cor clássica de fonte */
+    color: #0c0c0c;
+}
+
+/* ANIMAÇÃO DO PONTEIRO: Mantemos a sua animação, mas ajustamos o posicionamento */
+#dialog-text::after {
+    content: " ▼"; 
+    position: absolute; /* Permite posicionar o triângulo */
+    right: 20px;
+    bottom: 20px;
+    color: #e22ae2;
+    animation: blink 1s step-end infinite;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Adicionando um indicador visual para interação */
+#dialog-text::after {
+    content: " ▼"; /* Triângulo para indicar que a tela avança, como no GBA */
+    animation: blink 1s step-end infinite;
+}
+
+#present-display {
+    width: 256px; /* Tamanho da moldura */
+    height: 256px;
+    position: absolute;
+    
+    /* Centraliza na tela do jogo */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); 
+    
+    /* --- MOLDURA ESTILO GBA --- */
+    background-color: #e0e0e0; /* Fundo branco/azul claro para destacar o sprite */
+    
+    /* Borda Clássica de Pokémon */
+    border: 4px solid #e951e9;
+    box-shadow: 0 0 0 8px #e22ea2; /* Moldura preta externa */
+    border-radius: 2%;
+    
+    /* Adiciona a imagem flutuante e a escala */
+    background-size: 80% 80%; /* Reduz o tamanho da imagem para caber DENTRO da moldura */
+    background-position: center; /* Centraliza o sprite dentro da div */
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+    
+    /* A URL da imagem será definida via JS quando a Pokébola for aberta! */
+    /* background-image: url('../assets/present_sprite.png'); */
+    
+    z-index: 101; 
+}
+
+@keyframes blink {
+    from, to { opacity: 1; }
+    50% { opacity: 0; }
+}

@@ -1,0 +1,326 @@
+/* RESET E ESTILO GERAL */
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-image: url(../assets/fotos/background_love.jpg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+    color: #f0f0f0;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+header, section {
+    padding: 20px 0;
+    border-bottom: 1px solid #eee;
+    text-align: center;
+    font-family: 'Oswald', sans-serif;
+    font-size: 17px; /* Aplica Oswald aos títulos na seção */
+}
+
+h1, h2 {
+    font-family: 'Oswald', sans-serif; /* Força Oswald para H1 e H2 */
+    font-weight: 900;
+    text-transform: uppercase;
+    font-size: 30px;
+}
+
+.cta-button {
+    /* ... */
+    font-family: 'Oswald', sans-serif; /* Fonte forte para o botão */
+}
+
+#main-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: rgba(27, 27, 27, 0.7);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+header, section {
+    padding: 20px 0;
+    border-bottom: 1px solid #eee;
+    text-align: center;
+}
+
+h1 {
+    color: #E91E63; /* Tom de rosa/vermelho carinhoso */
+}
+
+/* ESTILO DO BOTÃO DE JOGO (CTA) */
+.cta-button {
+    display: inline-block;
+    padding: 15px 30px;
+    margin-top: 20px;
+    background-color: #e91e63; /* Verde Pokémon */
+    color: white;
+    text-decoration: none;
+    font-weight: 700;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+    box-shadow: 0 4px #640726;
+}
+
+.cta-button:hover {
+    background-color: #f8548b;
+    box-shadow: 0 2px #e91e63;
+    transform: translateY(2px);
+}
+
+/* ESTRUTURA DO FEED DE FOTOS */
+.photo-layout {
+    display: grid;
+    grid-template-columns: 1fr; /* Começa com uma coluna para mobile/telas pequenas */
+    gap: 40px;
+    padding: 20px;
+}
+
+/* Para telas maiores, divide em duas colunas */
+@media (min-width: 768px) {
+    .photo-layout {
+        grid-template-columns: 1.5fr 1fr; /* Destaque maior que o carrossel */
+        text-align: left;
+    }
+}
+
+.responsive-img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+#principal {
+    text-align: center;
+}
+/* FOTO DE DESTAQUE */
+#featured-photo {
+    text-align: center;
+}
+
+.caption {
+    margin-top: 10px;
+    font-style: italic;
+    color: #E91E63;
+    font-weight: 500;
+}
+
+/* CARROSSEL/SLIDER */
+#photo-carousel {
+    position: relative;
+    overflow: hidden; /* ESCONDE AS IMAGENS FORA DA VISÃO */
+    padding: 0px;
+    height: 700px;
+    width: 400px;
+    margin: 0 auto;
+    border-radius: 8px;
+}
+
+#photo-feed {
+    padding: 0;
+}
+
+#carousel-track {
+    display: flex;
+    transition: transform 0.5s ease-in-out; /* Suavidade na transição */
+    height: 100%;
+}
+
+.carousel-item {
+    width: 100%; /* Cada item ocupa 100% da largura do container do carrossel */
+    height: 100%;
+    object-fit: contain;
+    flex-shrink: 0; /* Impede que os itens encolham */
+    border-radius: 10px;
+}
+
+/* Botões de navegação */
+.nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 10;
+    border-radius: 50%;
+}
+
+#prev-btn { left: 10px; }
+#next-btn { right: 10px; }
+
+@media (min-width: 768px) {
+    .photo-layout {
+        grid-template-columns: 1.5fr 1fr; 
+        text-align: left;
+    }
+}
+
+/* ESTILOS DA PLAYLIST INTERCALADA */
+#playlist-intercalada {
+    padding: 40px 20px;
+}
+
+.playlist-item {
+    display: flex;
+    align-items: center;
+    
+    justify-content: space-between;
+    /* REMOVIDO: justify-content: space-between; (isso estava atrapalhando) */
+ /* Ou remova, pois as margens auto farão a justificação */
+    
+    margin-bottom: 60px;
+    width: 100%; 
+    padding: 0 20px;
+}
+
+/* CORES DOS CARDS (Intercalado por classe) */
+/* NOVAS CORES INDIVIDUAIS */
+.music-1-color .music-card {
+    background-color: #6d6d6d; /* Rosa/Vermelho */
+}
+.music-2-color .music-card {
+    background-color: #e979ff; /* Azul */
+}
+.music-3-color .music-card {
+    background-color: #9c8641; /* Amarelo (Exemplo) */
+}
+.music-4-color .music-card {
+    background-color: #881c1c; /* Roxo (Exemplo) */
+}
+.music-5-color .music-card {
+    background-color: #5842da; /* Verde Água (Exemplo) */
+}
+/* ESTRUTURA DO CARD DE MÚSICA */
+.music-card {
+    width: 450px; /* Largura do card de música (ajuste!) */
+    min-height: 200px;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.info-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.album-cover {
+    width: 60px;
+    height: 60px;
+    border-radius: 4px;
+    margin-right: 15px;
+}
+
+.song-title {
+    font-weight: 700;
+    font-size: 1.1em;
+}
+
+.artist-name {
+    font-size: 0.9em;
+    opacity: 0.8;
+}
+
+/* DETALHES E PLAYER */
+.lyric-snippet {
+    font-style: normal;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.play-btn {
+    background: white;
+    color: #333;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 1.2em;
+    transition: background 0.2s;
+}
+
+.play-btn:hover {
+    background: #d3d3d3; /* Destaque ao passar o mouse */
+}
+
+/* ESTRUTURA DE TEXTO (A PARTE INTERCALADA) */
+.explanation-text {
+    width: 500px; 
+    padding: 0 20px;
+    font-size: 0.95em;
+    line-height: 1.5;
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* LÓGICA DE INTERCALAÇÃO (FLEXBOX) */
+.left-aligned {
+    flex-direction: row; 
+ /* Alinha o grupo à esquerda */
+}
+
+.right-aligned {
+    /* CORREÇÃO FINAL: Força a inversão E o alinhamento na direita */
+    flex-direction: row-reverse; 
+/* GARANTE QUE VÁ PARA A DIREITA */
+}
+
+.right-text {
+    text-align: left; /* O texto à direita (lado esquerdo da tela) alinha à esquerda */
+}
+
+.left-text {
+    text-align: right; /* O texto à esquerda (lado direito da tela) alinha à direita */
+}
+
+/* ESTRUTURA E INTERCALAÇÃO (Responsividade) */
+/* Em telas menores (celular), o texto explicativo fica abaixo do card */
+@media (max-width: 767px) {
+    .playlist-item {
+        flex-direction: column; /* Empilha os itens verticalmente */
+        align-items: center;
+        margin-bottom: 40px;
+    }
+
+    .right-aligned {
+        flex-direction: column; /* Desativa o row-reverse para telas pequenas */
+    }
+    
+    .explanation-text {
+        width: 300px; /* REDUZIDO PARA TESTE */
+        padding: 0 20px;
+        order: 1; /* Coloca o texto em primeiro lugar na ordem vertical */
+    }
+    .left-aligned .explanation-text { margin-left: 20px; }
+    .right-aligned .explanation-text { margin-right: 20px; }
+
+    .music-card {
+        width: 100%; /* Ocupa a largura total para ficar centralizado */
+        order: 2;
+        font-family: 'Poppins', sans-serif; /* Coloca o card da música em segundo lugar */
+    }
+    
+    .left-text, .right-text {
+        text-align: center; /* Centraliza o texto explicativo no celular */
+    }
+}
+
+/* Garante que o card de música ocupe o espaço quando empilhado */
+@media (max-width: 500px) {
+    .music-card {
+        width: 90%; 
+    }
+}
+
+.right-aligned .music-card { order: 2; margin-left: 20px; }
+
+
+.left-aligned .music-card { order: 1; margin-right: 20px; }
